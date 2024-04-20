@@ -2,6 +2,7 @@ import { Button, Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, Touc
 import React, { useEffect, useRef, useState } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai'; // Import GoogleGenerativeAI
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as Speech from 'expo-speech';
 // Import những thành phần khác cần thiết
 
 const ChatGemini = () => {
@@ -10,8 +11,15 @@ const ChatGemini = () => {
     // const [sendPrompt, setSendPrompt] = useState('');
     const [loading, setLoading] = useState(false); // Đã sửa setLoading
     const scrollViewRef = useRef();
-
     const API_Key = 'AIzaSyDtoLEeiTLt8_2gELyL3--lADs1yEMSGbQ'; // Thay YOUR_API_KEY bằng khóa API của bạn
+
+    const speakVietnamese = (text) => {
+        try {
+            Speech.speak(text, { language: 'vi' });
+        } catch (error) {
+            console.error("Lỗi khi phát lời nói:", error);
+        }
+    }
 
     const StartChat = async () => {
         setLoading(true);
@@ -43,7 +51,9 @@ const ChatGemini = () => {
                 text,
                 user: false
             };
+
             setMessages(prevMessages => [...prevMessages, botMessage]);
+            speakVietnamese(text);
         } catch (error) {
             console.error("Lỗi:", error);
             // Xử lý lỗi phù hợp, ví dụ: thiết lập trạng thái lỗi
