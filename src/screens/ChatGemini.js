@@ -1,17 +1,16 @@
 import { Button, Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { GoogleGenerativeAI } from '@google/generative-ai'; // Import GoogleGenerativeAI
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Speech from 'expo-speech';
-// Import những thành phần khác cần thiết
+import { CustomText } from '../components/CustomText';
 
 const ChatGemini = () => {
     const [messages, setMessages] = useState([]);
     const [prompt, setPrompt] = useState('');
-    // const [sendPrompt, setSendPrompt] = useState('');
     const [loading, setLoading] = useState(false); // Đã sửa setLoading
     const scrollViewRef = useRef();
-    const API_Key = 'AIzaSyDtoLEeiTLt8_2gELyL3--lADs1yEMSGbQ'; // Thay YOUR_API_KEY bằng khóa API của bạn
+    const API_Key = 'AIzaSyDtoLEeiTLt8_2gELyL3--lADs1yEMSGbQ';
 
     const speakVietnamese = (text) => {
         try {
@@ -38,7 +37,6 @@ const ChatGemini = () => {
             };
             setMessages(prevMessages => [...prevMessages, userMessage]);
 
-            // setSendPrompt(prompt);
             let sendPrompt = prompt;
             setPrompt('');
 
@@ -63,18 +61,11 @@ const ChatGemini = () => {
     };
 
     useEffect(() => {
-        // Scroll to end when messages change
+        // tự động cuộn đến cuối danh sách tin nhắn khi có tin nhắn mới
         scrollViewRef.current.scrollToEnd({ animated: true });
     }, [messages]);
 
-    const convertToUpperCase = (text) => {
-        return text.replace(/\*\*(.*?)\*\*/g, (match, p1) => p1.toUpperCase());
-    };
 
-    const CustomText = ({ children, ...props }) => {
-        const processedText = typeof children === 'string' ? convertToUpperCase(children) : children;
-        return <Text {...props}>{processedText}</Text>;
-    };
     return (
         <View style={styles.container}>
 
