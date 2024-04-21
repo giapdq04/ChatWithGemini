@@ -15,31 +15,38 @@ const ChatGemini = () => {
         setLoading(true);
         try {
 
+            // Kiểm tra xem người dùng đã nhập prompt chưa
             if (prompt.length === 0) {
                 console.log("Chưa nhập prompt.");
                 return
             }
 
+            // Thêm tin nhắn người dùng vào danh sách tin nhắn
             const userMessage = {
                 text: prompt,
                 user: true
             };
             setMessages(prevMessages => [...prevMessages, userMessage]);
 
+            // Lưu trữ prompt vào biến sendPrompt và đặt prompt thành rỗng.
             let sendPrompt = prompt;
             setPrompt('');
 
             const genAI = GenAI();
-            const result = await genAI.generateContent(sendPrompt);
-            const response = result.response;
-            const text = response.text();
+            const result = await genAI.generateContent(sendPrompt); // Gửi prompt lên server
+            const response = result.response; // Nhận kết quả từ server
+            const text = response.text(); // Lấy nội dung text từ kết quả
             console.log(text);
+
+            // Thêm tin nhắn của bot vào danh sách tin nhắn
             const botMessage = {
                 text,
                 user: false
             };
 
             setMessages(prevMessages => [...prevMessages, botMessage]);
+
+            // Phát âm tiếng Việt
             Vietnamese(text);
         } catch (error) {
             console.error("Lỗi:", error);
