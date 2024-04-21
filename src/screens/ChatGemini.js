@@ -1,30 +1,19 @@
-import { Button, Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as Speech from 'expo-speech';
 import { CustomText } from '../components/CustomText';
+import { GenAI } from '../api/GeminiAPI';
+import { Vietnamese } from '../speech/vietnamese';
 
 const ChatGemini = () => {
     const [messages, setMessages] = useState([]);
     const [prompt, setPrompt] = useState('');
     const [loading, setLoading] = useState(false); // Đã sửa setLoading
     const scrollViewRef = useRef();
-    const API_Key = 'AIzaSyDtoLEeiTLt8_2gELyL3--lADs1yEMSGbQ';
-
-    const speakVietnamese = (text) => {
-        try {
-            Speech.speak(text, { language: 'vi' });
-        } catch (error) {
-            console.error("Lỗi khi phát lời nói:", error);
-        }
-    }
 
     const StartChat = async () => {
         setLoading(true);
         try {
-            const genAI = new GoogleGenerativeAI(API_Key);
-            const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
             if (prompt.length === 0) {
                 console.log("Chưa nhập prompt.");
@@ -40,10 +29,10 @@ const ChatGemini = () => {
             let sendPrompt = prompt;
             setPrompt('');
 
-
-            const result = await model.generateContent(sendPrompt);
-            const response = await result.response;
-            const text = await response.text();
+            const genAI = GenAI();
+            const result = await genAI.generateContent(sendPrompt);
+            const response = result.response;
+            const text = response.text();
             console.log(text);
             const botMessage = {
                 text,
@@ -51,7 +40,7 @@ const ChatGemini = () => {
             };
 
             setMessages(prevMessages => [...prevMessages, botMessage]);
-            speakVietnamese(text);
+            Vietnamese(text);
         } catch (error) {
             console.error("Lỗi:", error);
             // Xử lý lỗi phù hợp, ví dụ: thiết lập trạng thái lỗi
