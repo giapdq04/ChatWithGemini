@@ -14,11 +14,10 @@ const ChatGemini = () => {
     const StartChat = async () => {
         setLoading(true);
         try {
-
             // Kiểm tra xem người dùng đã nhập prompt chưa
             if (prompt.length === 0) {
                 console.log("Chưa nhập prompt.");
-                return
+                return;
             }
 
             // Thêm tin nhắn người dùng vào danh sách tin nhắn
@@ -32,8 +31,15 @@ const ChatGemini = () => {
             let sendPrompt = prompt;
             setPrompt('');
 
+            // Tạo lịch sử tin nhắn để gửi đến API
+            const messageHistory = [...messages, userMessage].map(msg => msg.text).join('\n');
+
             const genAI = GenAI();
-            const result = await genAI.generateContent(sendPrompt); // Gửi prompt lên server
+
+            // Gửi lịch sử tin nhắn đến API
+            const result = await genAI.generateContent(messageHistory);
+            console.log(result);
+
             const response = result.response; // Nhận kết quả từ server
             const text = response.text(); // Lấy nội dung text từ kết quả
             console.log(text);
