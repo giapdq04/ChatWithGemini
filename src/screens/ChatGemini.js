@@ -27,8 +27,6 @@ const ChatGemini = () => {
             };
             setMessages(prevMessages => [...prevMessages, userMessage]);
 
-            // Lưu trữ prompt vào biến sendPrompt và đặt prompt thành rỗng.
-            let sendPrompt = prompt;
             setPrompt('');
 
             // Tạo lịch sử tin nhắn để gửi đến API
