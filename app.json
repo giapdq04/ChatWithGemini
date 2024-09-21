@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "ChatWithGemini",
+    "name": "Chat Bot",
     "slug": "ChatWithGemini",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/chatbot_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -19,12 +19,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/chatbot_icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.giapdq.ChatWithGemini"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bba44b9a-4547-4be9-ba51-4af84868bfd2"
+      }
     }
   }
 }
